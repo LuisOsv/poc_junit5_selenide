@@ -24,15 +24,15 @@ public class TableSteps {
 
     @When("I look for the Memory usage of {string} in the dynamic table")
     public void i_look_for_the_memory_usage_of_in_the_dynamic_table(String browserName) {
-
+        String columnName = "Memory";
         List<String> columnHeaders = $$("div[role='row'] span[role='columnheader']")
                 .shouldHave(CollectionCondition.sizeGreaterThan(0))
-                .shouldHave(CollectionCondition.itemWithText("Memory")
+                .shouldHave(CollectionCondition.itemWithText(columnName)
                         .because("Memory column not found"))
                 .texts();
 
         int index = IntStream.range(0, columnHeaders.size())
-                .filter(i -> columnHeaders.get(i).equals("Memory"))
+                .filter(i -> columnHeaders.get(i).equals(columnName))
                 .findFirst()
                 .orElse(-1);
 

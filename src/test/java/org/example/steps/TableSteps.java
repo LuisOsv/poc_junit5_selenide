@@ -1,13 +1,16 @@
 package org.example.steps;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
-import io.cucumber.java.en.Then;
 
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.*;
+import java.util.List;
+import java.util.stream.IntStream;
+
+import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.open;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
@@ -21,14 +24,25 @@ public class TableSteps {
 
     @When("I look for the Memory usage of {string} in the dynamic table")
     public void i_look_for_the_memory_usage_of_in_the_dynamic_table(String browserName) {
-        String memoryUsageText = $$("div[role='row']")
-                .filter(Condition.text(browserName).because("Not available Browser: " + browserName))
-                .first()
-                .$$("span[role='cell']")
-                .get(2) // Memory usage is in the fifth cell
-                .shouldBe(Condition.visible.because("Memory Usage not visible for Browser: " + browserName))
-                .getText();
-        System.out.println("Memory Usage for " + browserName + ": " + memoryUsageText);
+
+        List<String> columnHeaders = $$("div[role='row'] span[role='columnheader']")
+                .shouldHave(CollectionCondition.sizeGreaterThan(0))
+                .shouldHave(CollectionCondition.itemWithText("Memory")
+                        .because("Memory column not found"))
+                .texts();
+
+        int index = IntStream.range(0, columnHeaders.size())
+                .filter(i -> columnHeaders.get(i).equals("Memory"))
+                .findFirst()
+                .orElse(-1);
+
+        String memoryUsageText = $$("span[role='cell']")
+                .shouldHave(CollectionCondition.sizeGreaterThan(0))
+                .find(Condition.text(browserName).because("Browser not found"))
+                .closest("div")
+                .find("span[role='cell']", index)
+                .text();
+
         assertThat(memoryUsageText, containsString("MB"));
     }
 

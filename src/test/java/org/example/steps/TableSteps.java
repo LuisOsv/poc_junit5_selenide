@@ -1,6 +1,7 @@
 package org.example.steps;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Configuration;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
@@ -14,6 +15,7 @@ public class TableSteps {
 
     @Given("I navigate to {string}")
     public void i_navigate_to(String url) {
+        Configuration.headless = true;
         open(url);
     }
 

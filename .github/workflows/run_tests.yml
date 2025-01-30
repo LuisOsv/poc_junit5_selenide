@@ -33,10 +33,10 @@ jobs: # Defines the jobs to be run
       - name: Setup Chrome # Step to set up Chrome
         uses: browser-actions/setup-chrome@latest # Uses the setup-chrome action to install Chrome
 
-      - name: Set Screen Resolution to 1920x1080 # Step to set the screen resolution
-        run: |
-          sudo apt-get install -y x11-utils # Install x11-utils package
-          xrandr --output $(xrandr | grep " connected" | cut -f1 -d " ") --mode 1920x1080 || echo "Screen resolution change failed" # Set the screen resolution to 1920x1080
+#      - name: Set Screen Resolution to 1920x1080 # Step to set the screen resolution
+#        run: |
+#          sudo apt-get install -y x11-utils # Install x11-utils package
+#          xrandr --output $(xrandr | grep " connected" | cut -f1 -d " ") --mode 1920x1080 || echo "Screen resolution change failed" # Set the screen resolution to 1920x1080
 
       - name: Install dependencies # Step to install project dependencies
         run: mvn install -DskipTests # Runs the Maven install command without running tests

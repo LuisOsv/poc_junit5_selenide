@@ -30,6 +30,11 @@ jobs: # Defines the jobs to be run
         restore-keys: |
           ${{ runner.os }}-maven- # Restore keys for the cache
 
+    - name: Install Chrome # Step to install Chrome
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
+
     - name: Install dependencies # Step to install project dependencies
       run: mvn install -DskipTests # Runs the Maven install command without running tests
 

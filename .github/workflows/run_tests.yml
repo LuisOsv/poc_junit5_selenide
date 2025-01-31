@@ -1,40 +1,64 @@
 name: Run TAF Tests # The name of the GitHub Actions workflow
 
 on: # Specifies the events that trigger the workflow
-  push: # Trigger the workflow on push events
+  push: # Runs when code is pushed to the repository
     branches:
-      - main # Only trigger on pushes to the main branch
-  pull_request: # Trigger the workflow on pull request events
+      - main # Only triggers when pushing to the main branch
+  pull_request: # Runs on pull request events
     branches:
-      - main # Only trigger on pull requests to the main branch
+      - main # Only triggers for pull requests targeting the main branch
 
-jobs: # Defines the jobs to be run
-  build: # The name of the job
-    runs-on: ubuntu-latest # Specifies the type of runner to use
+jobs: # Defines the jobs in this workflow
+  build: # Job name: 'build'
+    runs-on: ubuntu-latest # Specifies that the job runs on an Ubuntu-based virtual machine
 
-    steps: # The sequence of steps to set up the environment and run the tests
-      - name: Checkout repository # Step to check out the repository
-        uses: actions/checkout@v3 # Uses the checkout action to clone the repository
+    steps: # The sequence of steps to set up, run tests, and publish reports
+      - name: Checkout repository # Step 1: Clone the repository to the runner
+        uses: actions/checkout@v3 # Uses the official GitHub Action for checking out repositories
 
-      - name: Set up JDK 22 # Step to set up JDK 22
+      - name: Set up JDK 22 # Step 2: Install Java Development Kit (JDK)
         uses: actions/setup-java@v3 # Uses the setup-java action to install JDK
         with:
-          java-version: '22' # Specifies the version of JDK to install
-          distribution: 'temurin' # Specifies the distribution of JDK to use
+          java-version: '22' # Installs JDK 22
+          distribution: 'temurin' # Uses the Temurin JDK distribution
 
-      - name: Cache Maven packages # Step to cache Maven dependencies
-        uses: actions/cache@v3 # Uses the cache action to cache dependencies
+      - name: Cache Maven dependencies # Step 3: Cache Maven dependencies to speed up builds
+        uses: actions/cache@v3 # Uses caching to avoid re-downloading dependencies
         with:
-          path: ~/.m2 # The path to the Maven cache directory
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }} # The cache key based on the OS and the hash of the pom.xml file
+          path: ~/.m2 # Specifies the Maven cache directory
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }} # Cache key based on OS and pom.xml hash
           restore-keys: |
-            ${{ runner.os }}-maven- # Restore keys for the cache
+            ${{ runner.os }}-maven- # Restore cache if an exact match isn't found
 
-      - name: Setup Chrome # Step to set up Chrome
-        uses: browser-actions/setup-chrome@latest # Uses the setup-chrome action to install Chrome
+      - name: Setup Chrome # Step 4: Install Chrome for browser-based testing
+        uses: browser-actions/setup-chrome@latest # Installs Google Chrome
 
-      - name: Install dependencies # Step to install project dependencies
-        run: mvn install -DskipTests # Runs the Maven install command without running tests
+      - name: Install dependencies # Step 5: Install required Maven dependencies
+        run: mvn install -DskipTests # Installs project dependencies but skips running tests
 
-      - name: Run tests # Step to run the tests
-        run: mvn test # Runs the Maven test command to execute the tests
+      - name: Run tests # Step 6: Execute test cases
+        run: mvn test # Runs the Maven test command to execute the test suite
+
+      - name: Load previous Allure report history # Step 7: Retrieve previous test report history
+        uses: actions/checkout@v3
+        if: always() # Ensures this step runs even if previous steps fail
+        continue-on-error: true # Allows workflow to proceed if this step fails
+        with:
+          ref: gh-pages # Checks out the gh-pages branch (where reports are stored)
+          path: gh-pages # Saves it in the 'gh-pages' directory
+
+      - name: Generate Allure report # Step 8: Build the Allure test report
+        uses: simple-elf/allure-report-action@v1.7
+        if: always() # Ensures this step runs even if tests fail
+        with:
+          gh_pages: gh-pages # Path to the previous report history
+          allure_history: allure-history # Directory to store test history
+          allure_results: target/allure-results # Directory where Allure test results are stored (Maven default)
+
+      - name: Publish Allure report to GitHub Pages # Step 9: Deploy test report
+        uses: peaceiris/actions-gh-pages@v3
+        if: always() # Ensures the step runs even if tests fail
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} # GitHub token for authentication
+          publish_branch: gh-pages # The branch where reports will be published
+          publish_dir: allure-history # The directory containing the generated Allure report

@@ -16,6 +16,7 @@
         <selenide.version>7.7.0</selenide.version>
         <cucumber.version>7.11.0</cucumber.version>
         <hamcrest.version>2.2</hamcrest.version>
+        <allure.version>2.29.1</allure.version>
     </properties>
 
     <dependencies>
@@ -70,6 +71,12 @@
             <version>${hamcrest.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
+            <version>${allure.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -80,10 +87,17 @@
                 <version>3.0.0-M7</version>
                 <configuration>
                     <includes>
-<!--                        <include>**/*Test.java</include>-->
                         <include>**/RunCucumberTests.java</include>
                     </includes>
+                    <systemPropertyVariables>
+                        <allure.results.directory>target/allure-results</allure.results.directory>
+                    </systemPropertyVariables>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.15.2</version>
             </plugin>
         </plugins>
     </build>

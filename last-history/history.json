@@ -1,0 +1,1 @@
+{"ce0ca907b56ac059f270a0c351b903dd":{"statistic":{"failed":0,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":1},"items":[{"uid":"a577c983dc801abc","reportUrl":"https://LuisOsv.github.io/poc_junit5_selenide/9//#testresult/a577c983dc801abc","status":"passed","time":{"start":1738290785108,"stop":1738290787349,"duration":2241}}]}}

@@ -7,6 +7,8 @@ on: # Specifies the events that trigger the workflow
   pull_request: # Runs on pull request events
     branches:
       - main # Only triggers for pull requests targeting the main branch
+  schedule: # Runs on a schedule
+      - cron: '0 0 * * *' # Runs at midnight every day
 
 jobs: # Defines the jobs in this workflow
   build: # Job name: 'build'

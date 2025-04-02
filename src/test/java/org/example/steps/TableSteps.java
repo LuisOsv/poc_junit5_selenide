@@ -18,7 +18,7 @@ public class TableSteps {
 
     @Given("I navigate to {string}")
     public void i_navigate_to(String url) {
-        Configuration.headless = true;
+        Configuration.headless = false;
         open(url);
     }
 

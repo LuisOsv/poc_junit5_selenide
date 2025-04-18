@@ -1,0 +1,5 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Fri Apr 18 01:10:42 GMT 2025","Fri Apr 18 01:11:09 GMT 2025","26834","","Shopping Cart Testing","","Verify Shopping Cart","","Verify Shopping Cart",""
+"passed","Fri Apr 18 01:11:07 GMT 2025","Fri Apr 18 01:11:08 GMT 2025","888","","Calculator Tests","","Verify MUlTIPLY","","Verify MUlTIPLY",""
+"passed","Fri Apr 18 01:11:08 GMT 2025","Fri Apr 18 01:11:08 GMT 2025","342","","Calculator Tests","","Verify SUM","","Verify SUM",""
+"passed","Fri Apr 18 01:10:42 GMT 2025","Fri Apr 18 01:11:07 GMT 2025","24723","","Dynamic Table Testing","","Verify CPU usage of Browsers in the dynamic table","","Verify CPU usage of Browsers in the dynamic table",""

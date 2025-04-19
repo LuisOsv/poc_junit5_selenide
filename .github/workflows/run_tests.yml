@@ -18,10 +18,10 @@ jobs: # Defines the jobs in this workflow
       - name: Checkout repository # Step 1: Clone the repository to the runner
         uses: actions/checkout@v3 # Uses the official GitHub Action for checking out repositories
 
-      - name: Set up JDK 22 # Step 2: Install Java Development Kit (JDK)
+      - name: Set up JDK 24 # Step 2: Install Java Development Kit (JDK)
         uses: actions/setup-java@v3 # Uses the setup-java action to install JDK
         with:
-          java-version: '22' # Installs JDK 22
+          java-version: '24' # Installs JDK 24
           distribution: 'temurin' # Uses the Temurin JDK distribution
 
       - name: Cache Maven dependencies # Step 3: Cache Maven dependencies to speed up builds

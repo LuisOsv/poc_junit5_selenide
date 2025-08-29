@@ -1,0 +1,5 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Fri Aug 29 01:10:51 GMT 2025","Fri Aug 29 01:10:51 GMT 2025","367","","Calculator Tests","","Verify SUM","","Verify SUM",""
+"passed","Fri Aug 29 01:10:50 GMT 2025","Fri Aug 29 01:10:51 GMT 2025","812","","Calculator Tests","","Verify MUlTIPLY","","Verify MUlTIPLY",""
+"passed","Fri Aug 29 01:10:27 GMT 2025","Fri Aug 29 01:10:50 GMT 2025","22892","","Dynamic Table Testing","","Verify CPU usage of Browsers in the dynamic table","","Verify CPU usage of Browsers in the dynamic table",""
+"passed","Fri Aug 29 01:10:27 GMT 2025","Fri Aug 29 01:10:51 GMT 2025","24135","","Shopping Cart Testing","","Verify Shopping Cart","","Verify Shopping Cart",""
